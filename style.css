@@ -1,0 +1,148 @@
+body {
+    font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f0f0f0;
+}
+
+#game-container {
+    display: flex;
+    gap: 20px;
+}
+
+#game-board {
+    display: grid;
+    grid-template-columns: repeat(15, 40px);
+    grid-template-rows: repeat(15, 40px);
+    border: 2px solid #333;
+    width: 600px;
+    height: 600px;
+    background-color: #fff;
+}
+
+.tile {
+    width: 40px;
+    height: 40px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.palace {
+    background-image: url('icons/palace_new.svg');
+}
+
+.storage {
+    background-image: url('icons/palace.svg');
+}
+
+.mouse {
+    background-image: url('icons/mouse.svg');
+    background-size: 80%;
+}
+
+.keeper-1, .keeper-2, .keeper-3 {
+    width: 100%;
+    height: 100%;
+    background-size: 70%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.keeper-1 {
+    background-image: url('icons/keeper_1.svg');
+}
+
+.keeper-2 {
+    background-image: url('icons/keeper_2.svg');
+}
+
+.keeper-3 {
+    background-image: url('icons/keeper_3.svg');
+}
+
+/* 발자국 스타일 */
+.footprint-yellow {
+    background-image: url('icons/footprint.svg');
+    background-color: yellow;
+    background-blend-mode: multiply;
+}
+.footprint-red {
+    background-image: url('icons/footprint.svg');
+    background-color: red;
+    background-blend-mode: multiply;
+}
+.footprint-grey {
+    background-image: url('icons/footprint.svg');
+    background-color: grey;
+    background-blend-mode: multiply;
+}
+
+/* 잡힌 쥐 타일 */
+.mouse-caught {
+    background-color: red;
+}
+
+
+/* --- UI 개선 --- */
+#game-info {
+    background-color: #ffffff;
+    border: 1px solid #d1d1d1;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    padding: 20px;
+    min-width: 220px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+#game-info h2 {
+    margin-top: 0;
+    color: #333;
+}
+
+#game-info p {
+    background-color: #f7f7f7;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    padding: 10px;
+    margin: 5px 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#game-info p span {
+    font-weight: bold;
+    color: #007bff;
+}
+
+#message {
+    font-weight: bold;
+    color: #d9534f;
+    min-height: 40px;
+}
+
+#next-turn-btn, #game-info button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+#next-turn-btn:hover, #game-info button:hover {
+    background-color: #0056b3;
+}
+
+.hidden {
+    display: none;
+}
