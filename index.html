@@ -4,19 +4,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>쥐를 잡자! 쥐를 잡자! 찍찍찍!!!</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url('MouseChase.png');
+            background-size: cover;
+            background-position: center;
+            font-family: sans-serif;
+        }
+        .intro-container {
+            text-align: center;
+            padding: 40px;
+            background-color: rgba(255, 255, 255, 0.9); /* 약간 투명한 흰색 배경 */
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #333;
+            font-size: 3em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        .start-button {
+            margin-top: 30px;
+            padding: 15px 30px;
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+            background-color: #d9534f;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .start-button:hover {
+            background-color: #c9302c;
+        }
+    </style>
 </head>
 <body>
-    <h1>쥐를 잡자! 쥐를 잡자! 찍찍찍!!!</h1>
-    <div id="game-container">
-        <div id="game-board"></div>
-        <div id="game-info">
-            <p>턴: <span id="turn-counter">1</span> / 10</p>
-            <p>현재 턴: <span id="current-player">쥐</span></p>
-            <p id="message"></p>
-            <button id="next-turn-btn" class="hidden">다음 턴 시작</button>
-        </div>
+    <div class="intro-container">
+        <h1>쥐를 잡자! 쥐를 잡자! 찍찍찍!!!</h1>
+        <a href="game.html">
+            <button class="start-button">게임을 시작해볼까요?</button>
+        </a>
     </div>
-    <script src="script.js"></script>
 </body>
 </html>

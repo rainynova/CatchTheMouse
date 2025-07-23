@@ -1,5 +1,5 @@
 // 게임 설정
-const BOARD_SIZE = 15;
+const BOARD_SIZE = 9;
 const MAX_TURNS = 10;
 
 // DOM 요소
@@ -153,7 +153,7 @@ function handleKeeperTurn(x, y) {
     const keeperIndex = parseInt(currentPlayer.replace('창고지기', '')) - 1;
     const keeperPos = keeperPositions[keeperIndex];
 
-    if (board[y][x] === 'palace') { // 이동
+    if (board[y][x] === 'road') { // 이동
         if (!isIntersection(x, y)) { return; }
         const dx = Math.abs(keeperPos.x - x), dy = Math.abs(keeperPos.y - y);
         if (!((dx === 2 && dy === 0) || (dx === 0 && dy === 2))) { return; }
@@ -188,13 +188,35 @@ function advanceToNextPlayer() {
         gameState = 'transition';
         boardElement.removeEventListener('click', handleGameClick);
         messageElement.textContent = `턴 ${currentTurn} 종료. 다음 턴을 시작하려면 버튼을 누르세요.`;
+        
+        currentPlayer = '';
+        lenderCurrentPlayer();
+        
         nextTurnBtn.textContent = '다음 턴 시작';
         nextTurnBtn.classList.remove('hidden');
     } else {
         currentPlayer = playerOrder[currentPlayerIndex + 1];
         messageElement.textContent = `[${currentPlayer} 턴] 행동할 타일을 클릭하세요.`;
+        lenderCurrentPlayer();
     }
     renderBoard();
+}
+
+function lenderCurrentPlayer() {
+    currentPlayerElement.innerHTML = '';
+    
+    const svgImage = document.createElement('img');
+	let svgImagePath = '';
+	
+    if (currentPlayer === '쥐') svgImagePath = 'icons/mouse.svg';
+    else if (currentPlayer.startsWith('창고지기')) {
+		const keeperIndex = parseInt(currentPlayer.replace('창고지기', '')) - 1;
+		svgImagePath = `icons/keeper_${keeperIndex + 1}.svg`;
+	}
+	
+	svgImage.src = svgImagePath;    	
+	currentPlayerElement.appendChild(svgImage);
+	//console.log(svgImagePath);			
 }
 
 function startTurnAction() {
@@ -202,10 +224,10 @@ function startTurnAction() {
     
     if (gameState === 'transition') {
         if (nextTurnBtn.textContent === '게임 시작') {
-            // 첫 �� 시작
+            // 첫 시작
             gameState = 'playing';
             currentPlayer = '쥐';
-            boardElement.addEventListener('click', handleGameClick);
+            boardElement.addEventListener('click', handleGameClick);          
         } else {
             // 다음 라운드 시작
             currentTurn++;
@@ -217,6 +239,8 @@ function startTurnAction() {
             currentPlayer = '쥐';
             boardElement.addEventListener('click', handleGameClick);
         }
+        
+		lenderCurrentPlayer();
     }
     
     messageElement.textContent = `[${currentPlayer} 턴] 행동할 타일을 클릭하세요.`;
@@ -254,13 +278,19 @@ function createBoard() {
     for (let row = 0; row < BOARD_SIZE; row++) {
         board[row] = [];
         for (let col = 0; col < BOARD_SIZE; col++) {
-            board[row][col] = (row % 2 === 0) ? (col % 2 === 0 ? 'palace' : 'storage') : 'palace';
+        	if (row % 2 == 0)
+        	{
+        		board[row][col] = (col % 2 === 1) ? 'road' : 'storage';
+        	}
+        	else {
+        		board[row][col] = 'road';		
+			}            
         }
     }
 }
 
 function isIntersection(x, y) {
-    if (board[y][x] !== 'palace') return false;
+    if (board[y][x] !== 'road') return false;
     const diagonals = [{dx: -1, dy: -1}, {dx: 1, dy: -1}, {dx: -1, dy: 1}, {dx: 1, dy: 1}];
     for (const d of diagonals) {
         const nx = x + d.dx, ny = y + d.dy;
@@ -277,6 +307,7 @@ function renderBoard() {
 
     for (let r = 0; r < BOARD_SIZE; r++) {
         for (let c = 0; c < BOARD_SIZE; c++) {
+			//console.log(`(${r}, ${c})`)
             const tile = document.createElement('div');
             tile.classList.add('tile');
             tile.dataset.x = c;
@@ -304,7 +335,7 @@ function renderBoard() {
                 tile.appendChild(keeperElement);
             }
 
-            // Layer 3: 쥐 (조���부 표시)
+            // Layer 3: 쥐 (조건부 표시)
             if (isMouseVisible && isMouseHere) {
                 tile.classList.add('mouse');
             }
@@ -321,7 +352,7 @@ function renderBoard() {
 
 function updateGameInfo() {
     turnCounterElement.textContent = `${currentTurn}`;
-    currentPlayerElement.textContent = currentPlayer;
+    //currentPlayerElement.textContent = currentPlayer;
 }
 
 // 초기 게임 시작
